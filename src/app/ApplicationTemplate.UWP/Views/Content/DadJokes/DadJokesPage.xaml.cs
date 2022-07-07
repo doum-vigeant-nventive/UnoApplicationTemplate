@@ -1,17 +1,28 @@
-﻿using Windows.UI.Xaml.Controls;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+﻿using ApplicationTemplate.Presentation;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace ApplicationTemplate.Views.Content
 {
-	/// <summary>
-	/// An empty page that can be used on its own or navigated to within a Frame.
-	/// </summary>
 	public sealed partial class DadJokesPage : Page
 	{
 		public DadJokesPage()
 		{
 			this.InitializeComponent();
+			InitializeSafeArea();
+		}
+
+		/// <summary>
+		/// This method handles the bottom padding for phones like iPhone X.
+		/// </summary>
+		private void InitializeSafeArea()
+		{
+			var full = Windows.UI.Xaml.Window.Current.Bounds;
+			var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+
+			var bottomPadding = full.Bottom - bounds.Bottom;
+			SafeAreaRow.Height = new GridLength(bottomPadding + PresentationConstants.MenuHeight);
 		}
 	}
 }

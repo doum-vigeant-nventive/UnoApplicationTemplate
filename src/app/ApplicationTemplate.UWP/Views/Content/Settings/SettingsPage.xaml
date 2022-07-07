@@ -12,6 +12,9 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
+			<!-- SafeAreaRow.Height is set in code behind -->
+			<RowDefinition x:Name="SafeAreaRow"
+						   Height="0" />
 		</Grid.RowDefinitions>
 
 		<!-- CommandBar -->
