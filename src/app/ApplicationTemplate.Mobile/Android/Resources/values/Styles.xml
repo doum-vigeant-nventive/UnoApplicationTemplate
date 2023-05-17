@@ -10,7 +10,7 @@
 		<!-- Set the splash screen background. -->
 		<item name="windowSplashScreenBackground">@color/primaryColor</item>
 		<!-- Use windowSplashScreenAnimatedIcon to add either a drawable or an animated drawable. -->
-		<item name="windowSplashScreenAnimatedIcon">@drawable/Logo</item>
+		<item name="windowSplashScreenAnimatedIcon">@drawable/logo_splash</item>
 		<!-- Set the theme of the Activity that directly follows your splash screen. -->
 		<item name="postSplashScreenTheme">@style/AppTheme</item>
 	</style>
@@ -21,9 +21,6 @@
 		<item name="android:windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
 		<item name="android:windowNoTitle">true</item>
-
-		<!-- SplashScreen -->
-		<item name="android:windowBackground">@drawable/splash</item>
 
 		<!-- This makes the status bar translucent and allows content to be drawn behind -->
 		<item name="android:windowTranslucentStatus">true</item>

@@ -133,6 +133,7 @@
 				<AndroidResource Include="Android\Resources\mipmap-xxhdpi\ic_launcher_foreground.png" />
 				<AndroidResource Include="Android\Resources\mipmap-xhdpi\ic_launcher_foreground.png" />
 				<AndroidResource Include="Android\Resources\mipmap-xxxhdpi\ic_launcher_foreground.png" />
+				<AndroidResource Include="Android\Resources\drawable\logo_splash.svg" />
 				<AndroidResource Include="Android\Resources\drawable-hdpi\Logo.png" />
 				<AndroidResource Include="Android\Resources\drawable-mdpi\Logo.png" />
 				<AndroidResource Include="Android\Resources\drawable-xhdpi\Logo.png" />
