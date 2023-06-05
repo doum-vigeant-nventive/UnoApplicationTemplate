@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reactive.Concurrency;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,42 +16,31 @@ namespace ApplicationTemplate.Presentation;
 public class ViewModel : ViewModelBase, INavigableViewModel
 {
 	// Add properties or commands you want to have on all your ViewModels
+	private readonly ISectionsNavigator _sectionsNavigator;
 
 	public ViewModel()
 	{
 		(this as IInjectable)?.Inject((t, n) => this.GetService(t));
+		_sectionsNavigator = this.GetService<ISectionsNavigator>();
 	}
 
-	public string AccessibilityViewForSubModalViewModels
+	public bool IsModalActive
 	{
-		get => this.Get(initialValue: "Content");
-		private set => this.Set(value);
+		get => this.Get(initialValue: false);
+		set => this.Set(value);
 	}
 
 	public IDynamicCommand NavigateBack => this.GetCommandFromTask(async ct =>
 	{
-		await this.GetService<ISectionsNavigator>().NavigateBackOrCloseModal(ct);
+		await _sectionsNavigator.NavigateBackOrCloseModal(ct);
 	});
 
 	public IDynamicCommand CloseModal => this.GetCommandFromTask(async ct =>
 	{
-		var sectionNavigator = this.GetService<ISectionsNavigator>();
+		GetViewModelUnderModal().IsModalActive = false;
 
-		var viewModelUnderModal = sectionNavigator.State.ActiveSection.State.Stack[0].ViewModel as ViewModel;
-		viewModelUnderModal.ActivateAccessibilityView();
-
-		await sectionNavigator.CloseModal(ct);
+		await _sectionsNavigator.CloseModal(ct);
 	});
-
-	protected void ActivateAccessibilityView()
-	{
-		AccessibilityViewForSubModalViewModels = "Content";
-	}
-
-	protected void DeactivateAccessibilityView()
-	{
-		AccessibilityViewForSubModalViewModels = "Raw";
-	}
 
 	void INavigableViewModel.SetView(object view)
 	{
@@ -70,5 +57,11 @@ public class ViewModel : ViewModelBase, INavigableViewModel
 	public async Task RunOnDispatcher(CancellationToken ct, Func<CancellationToken, Task> action)
 	{
 		await this.GetService<IDispatcherScheduler>().Run(ct2 => action(ct2), ct);
+	}
+
+	private ViewModel GetViewModelUnderModal()
+	{
+		var activeSectionStack = _sectionsNavigator.State.ActiveSection.State.Stack;
+		return activeSectionStack[activeSectionStack.Count - 1].ViewModel as ViewModel;
 	}
 }
